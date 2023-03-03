@@ -1,3 +1,5 @@
+token.txt
+pat.txt
 *.ipynb
 runs/
 wandb/
