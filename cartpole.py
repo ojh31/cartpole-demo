@@ -11,77 +11,27 @@
 #     name: python3
 # ---
 
-# + colab={"base_uri": "https://localhost:8080/"} id="GgSNZRJh4EjV" executionInfo={"status": "ok", "timestamp": 1677854127106, "user_tz": 0, "elapsed": 14129, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="15c1140d-d0e1-4425-e2b0-787b5b5b31d0"
+# + colab={"base_uri": "https://localhost:8080/"} id="fhcm7fRqAm-v" executionInfo={"status": "ok", "timestamp": 1677860381600, "user_tz": 0, "elapsed": 1731, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="aa0a6e84-f35e-40fb-c68b-8e6afeee8caa"
+from google.colab import drive
+drive.mount('/content/drive')
+# %cd /content/drive/MyDrive/Colab Notebooks/cartpole-demo
+
+# + colab={"base_uri": "https://localhost:8080/"} id="GgSNZRJh4EjV" executionInfo={"status": "ok", "timestamp": 1677860415136, "user_tz": 0, "elapsed": 33538, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="69250b38-a9d9-4ebb-f165-fa3f344f76f4"
 # !pip install einops
 # !pip install wandb
 # !pip install jupytext
 
-# + colab={"base_uri": "https://localhost:8080/"} id="DWxn48E96zsE" executionInfo={"status": "ok", "timestamp": 1677854480277, "user_tz": 0, "elapsed": 20421, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="3ca3c836-385d-4cdf-c675-5cc0f436e13c"
-from google.colab import drive
-drive.mount('/content/drive')
-
-# + colab={"base_uri": "https://localhost:8080/"} id="JROtDT-z68YE" executionInfo={"status": "ok", "timestamp": 1677855490149, "user_tz": 0, "elapsed": 2, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="1c2404d5-89c5-4fac-c89e-759d5c422378"
-# %cd /content/drive/MyDrive/Colab Notebooks/cartpole-demo
-
-# + id="yA8CPetn72zN" executionInfo={"status": "ok", "timestamp": 1677855387510, "user_tz": 0, "elapsed": 548, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
-# %rm -rf cartpole-demo
-
-# + colab={"base_uri": "https://localhost:8080/", "height": 35} id="HXK2M9jo7Tq0" executionInfo={"status": "ok", "timestamp": 1677855481739, "user_tz": 0, "elapsed": 210, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="57ca0625-0dba-4e3c-9d29-e7d2d4d8f3b3"
-# %pwd
-
-# + colab={"base_uri": "https://localhost:8080/"} id="ip3mRuGL7WFF" executionInfo={"status": "ok", "timestamp": 1677855416170, "user_tz": 0, "elapsed": 872, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="0eb4e7ce-1f47-4a23-9358-c9b058ff4b8f"
-# !git clone https://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@github.com/ojh31/cartpole-demo.git
-
-# + id="AHsDqftz-hHW" executionInfo={"status": "ok", "timestamp": 1677855476724, "user_tz": 0, "elapsed": 211, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
-# %cd cartpole-demo
-
-# + colab={"base_uri": "https://localhost:8080/"} id="1g58HZUb8Ltl" executionInfo={"status": "ok", "timestamp": 1677855860436, "user_tz": 0, "elapsed": 655, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="1aebf470-e8c1-4b9b-c7d0-076de85f8921"
+# + colab={"base_uri": "https://localhost:8080/"} id="1g58HZUb8Ltl" executionInfo={"status": "ok", "timestamp": 1677860416428, "user_tz": 0, "elapsed": 1296, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="853b0a34-3f23-4a5f-8f78-2aa950cfd114"
+# !jupytext --to py cartpole.ipynb
 # !git fetch
 # !git status
 
-# + id="TZ0-iSLfAHW2" executionInfo={"status": "ok", "timestamp": 1677855855332, "user_tz": 0, "elapsed": 322, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="77422b46-132d-4479-f522-d67f02e7ec10" colab={"base_uri": "https://localhost:8080/"}
-# !git pull
-
-# + id="y1RfW7VZ-5od" executionInfo={"status": "ok", "timestamp": 1677855537570, "user_tz": 0, "elapsed": 209, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
-# !git add cartpole.py
-
-# + colab={"base_uri": "https://localhost:8080/"} id="a4eUu5_C8k5m" executionInfo={"status": "ok", "timestamp": 1677854968122, "user_tz": 0, "elapsed": 736, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="4e8895c5-2756-4e17-bfb0-d1d0de16359d"
-# # !git config --global user.email "oskar.hollinsworth@gmail.com"
-# # !git config --global user.name "ojh31"
-# !git commit -m "Added utils.py"
-
-# + colab={"base_uri": "https://localhost:8080/"} id="b7-5nhRy_Tqm" executionInfo={"status": "ok", "timestamp": 1677855646968, "user_tz": 0, "elapsed": 1368, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="aa95a900-2563-4b38-9340-c2b910d2fa78"
-# !git push
-
-# + colab={"base_uri": "https://localhost:8080/"} id="feR9p-mQ6-yM" executionInfo={"status": "ok", "timestamp": 1677854760392, "user_tz": 0, "elapsed": 329, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="b4a84250-2519-47c0-e951-6055197a7ab6"
-# %ls
-
-# + colab={"base_uri": "https://localhost:8080/"} id="74DpgUx-5PR1" executionInfo={"status": "ok", "timestamp": 1677854149686, "user_tz": 0, "elapsed": 841, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="1c6de799-16c5-4c39-ba25-dbb2e2296e25"
-# !jupytext --to py cartpole.ipynb
-
-# + colab={"base_uri": "https://localhost:8080/"} id="scx4_0TA6EuE" executionInfo={"status": "ok", "timestamp": 1677854280360, "user_tz": 0, "elapsed": 9320, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="a5349193-113d-4168-acb0-37571f8bbe92"
-pip install colab-convert
-
-# + colab={"base_uri": "https://localhost:8080/"} id="n6JUsoQ76Grc" executionInfo={"status": "ok", "timestamp": 1677854300888, "user_tz": 0, "elapsed": 544, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="59fc0d6e-9571-4070-ac07-e2544efb91ec"
-# !colab-convert cartpole.ipynb cartpole.py -nc -rm -o
-
-# + colab={"base_uri": "https://localhost:8080/"} id="GZvU1J5a6ZIk" executionInfo={"status": "ok", "timestamp": 1677854351015, "user_tz": 0, "elapsed": 207, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="57faa2d7-247b-4fe2-fdb4-c36a24474c36"
-# !pwd
-
-# + colab={"base_uri": "https://localhost:8080/"} id="-A9lJSIA6Ty0" executionInfo={"status": "ok", "timestamp": 1677854332506, "user_tz": 0, "elapsed": 210, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="08b6ad96-ecf3-45ee-e5d4-ed93196b0610"
-# !ls
-
-# + id="_4bPiLqR6arM"
-
-
-# + colab={"base_uri": "https://localhost:8080/", "height": 373} id="SGjJl_bp35AG" executionInfo={"status": "error", "timestamp": 1677854094280, "user_tz": 0, "elapsed": 6239, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="f09f08cd-6795-4773-944b-589ba18fa23c"
-#%%
+# + id="vEczQ48wC40O" executionInfo={"status": "ok", "timestamp": 1677860420697, "user_tz": 0, "elapsed": 4271, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 import argparse
 import os
 import random
 import time
 import sys
-sys.path.append('/home/oskar/projects/arena-v1-ldn-exercises-new')
 from distutils.util import strtobool
 from dataclasses import dataclass
 from typing import Optional
@@ -96,15 +46,59 @@ from torch.utils.tensorboard import SummaryWriter
 from gym.spaces import Discrete
 from typing import Any, List, Optional, Union, Tuple, Iterable
 from einops import rearrange
-from utils import ppo_parse_args, make_env
 import importlib
-import tests
 import wandb
 
-importlib.reload(tests)
+
+# + id="Q5E93-BGRjuy"
+def make_env(env_id: str, seed: int, idx: int, capture_video: bool, run_name: str):
+    """Return a function that returns an environment after setting up boilerplate."""
+    
+    def thunk():
+        env = gym.make(env_id, new_step_api=True)
+        env = gym.wrappers.RecordEpisodeStatistics(env)
+        if capture_video:
+            if idx == 0:
+                env = gym.wrappers.RecordVideo(
+                    env, 
+                    f"videos/{run_name}", 
+                    episode_trigger=lambda x : x % 50 == 0 # Video every 50 runs for env #1
+                )
+        obs = env.reset(seed=seed)
+        env.action_space.seed(seed)
+        env.observation_space.seed(seed)
+        return env
+    
+    return thunk
+
+
+# + id="Kf152ROwHjM_" executionInfo={"status": "ok", "timestamp": 1677860420697, "user_tz": 0, "elapsed": 6, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+def test_minibatch_indexes(minibatch_indexes):
+    for n in range(5):
+        frac, minibatch_size = np.random.randint(1, 8, size=(2,))
+        batch_size = frac * minibatch_size
+        indices = minibatch_indexes(batch_size, minibatch_size)
+        assert any([isinstance(indices, list), isinstance(indices, np.ndarray)])
+        assert isinstance(indices[0], np.ndarray)
+        assert len(indices) == frac
+        np.testing.assert_equal(np.sort(np.stack(indices).flatten()), np.arange(batch_size))
+
+
+# + id="mhvduVeOHkln" executionInfo={"status": "ok", "timestamp": 1677860420698, "user_tz": 0, "elapsed": 7, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+def test_calc_entropy_bonus(calc_entropy_bonus):
+    probs = Categorical(logits=t.randn((3, 4)))
+    ent_coef = 0.5
+    expected = ent_coef * probs.entropy().mean()
+    actual = calc_entropy_bonus(probs, ent_coef)
+    t.testing.assert_close(expected, actual)
+
+
+# + id="SGjJl_bp35AG" executionInfo={"status": "ok", "timestamp": 1677860420698, "user_tz": 0, "elapsed": 6, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 MAIN = __name__ == "__main__"
-RUNNING_FROM_FILE = "ipykernel_launcher" in os.path.basename(sys.argv[0])
-# %%
+os.environ['WANDB_NOTEBOOK_NAME'] = 'cartpole.py'
+
+
+# + id="Aya60GeCGA5X" executionInfo={"status": "ok", "timestamp": 1677860420698, "user_tz": 0, "elapsed": 6, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 def layer_init(layer, std=np.sqrt(2), bias_const=0.0):
     t.nn.init.orthogonal_(layer.weight, std)
     t.nn.init.constant_(layer.bias, bias_const)
@@ -133,6 +127,10 @@ class Agent(nn.Module):
             nn.Tanh(),
             layer_init(nn.Linear(64, 1), std=1),
         )
+
+
+
+# + id="6PwPZHlLGDYu" executionInfo={"status": "ok", "timestamp": 1677860420698, "user_tz": 0, "elapsed": 6, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 @t.inference_mode()
 def compute_advantages(
@@ -168,15 +166,15 @@ def compute_advantages(
     adv = deltas.clone().to(device)
     for to_go in range(1, t_max):
         t_idx = t_max - to_go - 1
-        t.testing.assert_allclose(adv[t_idx], deltas[t_idx])
+        t.testing.assert_close(adv[t_idx], deltas[t_idx])
         adv[t_idx] += (
             gamma * gae_lambda * adv[t_idx + 1] * (1.0 - next_dones[t_idx]) 
         )
     return adv
 
-if MAIN and RUNNING_FROM_FILE:
-    tests.test_compute_advantages(compute_advantages)
-    print('Passed test_compute_advantages')
+
+
+# + id="uYSSMnF-GPvm" executionInfo={"status": "ok", "timestamp": 1677860420699, "user_tz": 0, "elapsed": 6, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 @dataclass
 class Minibatch:
@@ -189,7 +187,7 @@ class Minibatch:
 
 def minibatch_indexes(
     batch_size: int, minibatch_size: int
-) -> list[np.ndarray]:
+) -> List[np.ndarray]:
     '''
     Return a list of length (batch_size // minibatch_size) where 
     each element is an array of indexes into the batch.
@@ -202,8 +200,8 @@ def minibatch_indexes(
     np.random.shuffle(indices)
     return [indices[i::n] for i in range(n)]
 
-if MAIN and RUNNING_FROM_FILE:
-    tests.test_minibatch_indexes(minibatch_indexes)
+if MAIN:
+    test_minibatch_indexes(minibatch_indexes)
 
 def make_minibatches(
     obs: t.Tensor,
@@ -215,7 +213,7 @@ def make_minibatches(
     action_shape: tuple,
     batch_size: int,
     minibatch_size: int,
-) -> list[Minibatch]:
+) -> List[Minibatch]:
     '''
     Flatten the environment and steps dimension into one batch dimension, 
     then shuffle and split into minibatches.
@@ -236,10 +234,13 @@ def make_minibatches(
         for idx in indexes
     ]
 
+
+
+# + id="K7wXDJ9MGOWu" executionInfo={"status": "ok", "timestamp": 1677860420699, "user_tz": 0, "elapsed": 6, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 def calc_policy_loss(
-    probs: Categorical, mb_action: t.Tensor, mb_advantages: t.Tensor, mb_logprobs: t.Tensor, 
-    clip_coef: float
+    probs: Categorical, mb_action: t.Tensor, mb_advantages: t.Tensor, 
+    mb_logprobs: t.Tensor, clip_coef: float
 ) -> t.Tensor:
     '''
     Return the policy loss, suitable for maximisation with gradient ascent.
@@ -259,8 +260,8 @@ def calc_policy_loss(
     return t.minimum(min_left, min_right).mean()
 
 
-if MAIN and RUNNING_FROM_FILE:
-    tests.test_calc_policy_loss(calc_policy_loss)
+
+# + id="CmyxU6JWGMsG" executionInfo={"status": "ok", "timestamp": 1677860420699, "user_tz": 0, "elapsed": 6, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 def calc_value_function_loss(
     critic: nn.Sequential, mb_obs: t.Tensor, mb_returns: t.Tensor, v_coef: float
@@ -275,8 +276,9 @@ def calc_value_function_loss(
     output = critic(mb_obs)
     return v_coef * (output - mb_returns).pow(2).mean() / 2
 
-if MAIN and RUNNING_FROM_FILE:
-    tests.test_calc_value_function_loss(calc_value_function_loss)
+
+
+# + id="npyWs6xjGLkP" executionInfo={"status": "ok", "timestamp": 1677860420699, "user_tz": 0, "elapsed": 5, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 def calc_entropy_loss(probs: Categorical, ent_coef: float):
     '''Return the entropy loss term.
@@ -288,8 +290,11 @@ def calc_entropy_loss(probs: Categorical, ent_coef: float):
     '''
     return probs.entropy().mean() * ent_coef
 
-if MAIN and RUNNING_FROM_FILE:
-    tests.test_calc_entropy_loss(calc_entropy_loss)
+if MAIN:
+    test_calc_entropy_bonus(calc_entropy_loss)
+
+
+# + id="nqJeg1kZGKSG" executionInfo={"status": "ok", "timestamp": 1677860420700, "user_tz": 0, "elapsed": 6, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 class PPOScheduler:
     def __init__(self, optimizer: optim.Adam, initial_lr: float, end_lr: float, num_updates: int):
@@ -314,17 +319,20 @@ class PPOScheduler:
 
 def make_optimizer(
     agent: Agent, num_updates: int, initial_lr: float, end_lr: float
-) -> tuple[optim.Adam, PPOScheduler]:
+) -> Tuple[optim.Adam, PPOScheduler]:
     '''Return an appropriately configured Adam with its attached scheduler.'''
     optimizer = optim.Adam(agent.parameters(), lr=initial_lr, maximize=True)
     scheduler = PPOScheduler(
         optimizer=optimizer, initial_lr=initial_lr, end_lr=end_lr, num_updates=num_updates
     )
     return optimizer, scheduler
-# %%
+
+
+
+# + id="mgZ7-wsRCxJW" executionInfo={"status": "ok", "timestamp": 1677860512190, "user_tz": 0, "elapsed": 198, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 @dataclass
 class PPOArgs:
-    exp_name: str = os.path.basename(__file__).rstrip(".py")
+    exp_name: str = 'cartpole.py'    
     seed: int = 1
     torch_deterministic: bool = True
     cuda: bool = True
@@ -333,7 +341,7 @@ class PPOArgs:
     wandb_entity: str = None
     capture_video: bool = False
     env_id: str = "CartPole-v1"
-    total_timesteps: int = 500000
+    total_timesteps: int = 40_000
     learning_rate: float = 0.00025
     num_envs: int = 4
     num_steps: int = 128
@@ -348,6 +356,9 @@ class PPOArgs:
     batch_size: int = 512
     minibatch_size: int = 128
 
+
+# + id="FHmn5kSUGFFu" executionInfo={"status": "ok", "timestamp": 1677860828050, "user_tz": 0, "elapsed": 674, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# %%
 def train_ppo(args: PPOArgs):
     run_name = f"{args.env_id}__{args.exp_name}__{args.seed}__{int(time.time())}"
     if args.track:
@@ -402,7 +413,7 @@ def train_ppo(args: PPOArgs):
     next_done = torch.zeros(args.num_envs).to(device)
     for _ in range(num_updates):
         for i in range(0, args.num_steps):
-            "YOUR CODE: Rollout phase (see detail #1)"
+            # Rollout phase
             global_step += 1
             curr_obs = next_obs
             done = next_done
@@ -419,15 +430,17 @@ def train_ppo(args: PPOArgs):
             actions[i] = action
             logprobs[i] = logprob
             rewards[i] = t.tensor(reward, device=device)
-            dones[i] = t.tensor(done, device=device)
+            dones[i] = done.detach().clone() # t.tensor(done, device=device)
             values[i] = q_values
 
-            for item in info:
-                if "episode" in item.keys():
-                    print(f"global_step={global_step}, episodic_return={item['episode']['r']}")
-                    writer.add_scalar("charts/episodic_return", item["episode"]["r"], global_step)
-                    writer.add_scalar("charts/episodic_length", item["episode"]["l"], global_step)
-                    break
+            if "episode" in info.keys():
+                for item in info['episode']:
+                    if item is None or 'r' not in item.keys():
+                        continue
+                    if global_step % 10 == 0:
+                        print(f"global_step={global_step}, episodic_return={item['r']}")
+                    writer.add_scalar("charts/episodic_return", item["r"], global_step)
+                    writer.add_scalar("charts/episodic_length", item["l"], global_step)
         with t.inference_mode():
             next_value = rearrange(agent.critic(next_obs), "env 1 -> 1 env")
         advantages = compute_advantages(
@@ -453,7 +466,7 @@ def train_ppo(args: PPOArgs):
                 entropy_loss = calc_entropy_loss(probs, args.ent_coef)
                 loss = policy_loss + entropy_loss - value_loss
                 loss.backward()
-                nn.utils.clip_grad_norm(agent.parameters(), args.max_grad_norm)
+                nn.utils.clip_grad_norm_(agent.parameters(), args.max_grad_norm)
                 optimizer.step()
                 optimizer.zero_grad()
 
@@ -477,19 +490,21 @@ def train_ppo(args: PPOArgs):
         writer.add_scalar("losses/clipfrac", np.mean(clipfracs), global_step)
         writer.add_scalar("losses/explained_variance", explained_var, global_step)
         writer.add_scalar("charts/SPS", int(global_step / (time.time() - start_time)), global_step)
-        if global_step % 10 == 0:
+        if global_step % 100 == 0:
             print("steps per second (SPS):", int(global_step / (time.time() - start_time)))
+            print("losses/value_loss", value_loss.item())
+            print("losses/policy_loss", policy_loss.item())
+            print("losses/entropy", entropy_loss.item())
+    print(f'... training complete after {global_step} steps')
     envs.close()
     writer.close()
 
+
+
+# + colab={"base_uri": "https://localhost:8080/", "height": 1000, "referenced_widgets": ["d5dd7fcac74d422a88caedc9ea1fc0f9", "432e821806af4ea98a7113e113e5b41d", "4b4bd01ef1af4dd2a4be4f193cad37cd", "3580bbdb38b8404d8e80db468b6768ac", "66b9fdf9fa3a4c9191371242d08e61d8", "d27a0274421c47b7a2041122f750e4a1", "a7ab2f4449f64758b9b64be7012a3957", "dfd643fd84ea48b3bdf8b6c01c45766d"]} id="JZvMdcw8M5X5" executionInfo={"status": "ok", "timestamp": 1677860862245, "user_tz": 0, "elapsed": 34200, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="a6e5adbf-3ae9-4abc-c9c4-12f87206b054"
 if MAIN:
-    if RUNNING_FROM_FILE:
-        filename = globals().get("__file__", "<filename of this script>")
-        print(f"Try running this file from the command line instead: python {os.path.basename(filename)} --help")
-        args = PPOArgs()
-    else:
-        args = ppo_parse_args()
+    args = PPOArgs()
     train_ppo(args)
 
-# + id="cgXTFHYe5WKk"
+# + id="cXbn7q4EMEQA" executionInfo={"status": "aborted", "timestamp": 1677860421562, "user_tz": 0, "elapsed": 7, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 
