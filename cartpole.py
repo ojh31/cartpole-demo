@@ -20,12 +20,18 @@ drive.mount('/content/drive')
 # !pip install einops
 # !pip install wandb
 # !pip install jupytext
+# !pip install pygame
 
-# + colab={"base_uri": "https://localhost:8080/"} id="1g58HZUb8Ltl" executionInfo={"status": "ok", "timestamp": 1677872909221, "user_tz": 0, "elapsed": 2052, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="d67a58d9-2c2b-4644-b77a-876edb52bb32"
+# + colab={"base_uri": "https://localhost:8080/"} id="1g58HZUb8Ltl" executionInfo={"status": "ok", "timestamp": 1677876368685, "user_tz": 0, "elapsed": 2187, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="db7885b7-fa52-4cd2-d777-48c7102ee552"
+# !git config --global user.email "oskar.hollinsworth@gmail.com"
+# !git config --global user.name "ojh31"
 # !cat pat.txt | xargs git remote set-url origin
 # !jupytext --to py cartpole.ipynb
 # !git fetch
 # !git status
+
+# + id="ilnXTPxCOZMz"
+git comm
 
 # + id="vEczQ48wC40O" executionInfo={"status": "ok", "timestamp": 1677872912093, "user_tz": 0, "elapsed": 2876, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 import os
@@ -329,7 +335,7 @@ def make_optimizer(
 
 
 
-# + id="mgZ7-wsRCxJW" executionInfo={"status": "ok", "timestamp": 1677872912099, "user_tz": 0, "elapsed": 12, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="mgZ7-wsRCxJW" executionInfo={"status": "ok", "timestamp": 1677876142195, "user_tz": 0, "elapsed": 333, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 @dataclass
 class PPOArgs:
     exp_name: str = 'cartpole.py'    
@@ -339,7 +345,7 @@ class PPOArgs:
     track: bool = True
     wandb_project_name: str = "PPOCart"
     wandb_entity: str = None
-    capture_video: bool = False
+    capture_video: bool = True
     env_id: str = "CartPole-v1"
     total_timesteps: int = 40_000
     learning_rate: float = 0.00025
@@ -357,7 +363,7 @@ class PPOArgs:
     minibatch_size: int = 128
 
 
-# + id="FHmn5kSUGFFu" executionInfo={"status": "ok", "timestamp": 1677875838923, "user_tz": 0, "elapsed": 186, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="FHmn5kSUGFFu" executionInfo={"status": "ok", "timestamp": 1677876142998, "user_tz": 0, "elapsed": 171, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 def train_ppo(args: PPOArgs):
     run_name = f"{args.env_id}__{args.exp_name}__{args.seed}__{int(time.time())}"
@@ -505,12 +511,15 @@ def train_ppo(args: PPOArgs):
         print('...wandb finished.')
 
 
-# + id="-oZHTffJZP17" executionInfo={"status": "ok", "timestamp": 1677875871622, "user_tz": 0, "elapsed": 32176, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} colab={"base_uri": "https://localhost:8080/", "height": 1000, "referenced_widgets": ["67137a0d18974b4a8199e4d9641cd622", "7e035e617a124f1bb946f507fcd6d4f9", "12cff0f88d5547738b2dd46af7646e17", "0686e0a1656b4470b9d329e4a79ab372", "d5b592aea56849df8d882421af4b8cd9", "e6cf76e4095e487bb269be79b29d27c8", "e36682a2a9224c79b1116cb978e7f694", "2e67c81e16af4f85bebb46be37f9ab4c", "bb760c60a9454601ad349ab2a8332b9e", "0e7d8f8a55384cb2976fb58881a12161", "5933349e2ccc4aa0bd908a7165a6652d", "ac58ea7bcf894e7bbfc11b5c0a344c25", "c323c94e88284213b316e49afc1a933f", "d4a66294fe5349f1840c2c0e7c5dcc88", "0eef051204f141be90741de93729afb8", "6df1a58004ef4345b74ec442bc8db48b"]} outputId="1facba9a-67e5-49c2-a9d1-f252126b3886"
+# + colab={"base_uri": "https://localhost:8080/", "height": 35} id="sshNXF32Nxs4" executionInfo={"status": "ok", "timestamp": 1677876211186, "user_tz": 0, "elapsed": 265, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="c806c60e-07d2-4019-c3cb-3f4615d73187"
+gym.__version__
+
+# + id="-oZHTffJZP17" executionInfo={"status": "ok", "timestamp": 1677876300061, "user_tz": 0, "elapsed": 44216, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} colab={"base_uri": "https://localhost:8080/", "height": 1000, "referenced_widgets": ["7275d2d45e5d457d8ecaf9b73d6ca912", "2a48fe3321074c339752a5e9244e54b0", "a9bb2fb014cd46ff8fc7fb13574ad40e", "702d447d4cf24157ae276bbbce6b7615", "bc65a6cc48f7465698b875dbc940dcbf", "b5c89c824c18497db6114cd295c26c70", "86a8c0fa489a4e2cb62d0bdec15c44d4", "1b25e36733b640adb0905c85e161d147"]} outputId="74db3732-1b25-42db-b4f4-b567cb55b1f3"
 # #%%wandb
 args = PPOArgs()
 train_ppo(args)
 
-# + colab={"base_uri": "https://localhost:8080/"} id="jp8WoksYIfwr" outputId="f286fd82-105e-4dd7-e702-edc6021efcab"
+# + colab={"base_uri": "https://localhost:8080/"} id="jp8WoksYIfwr" executionInfo={"status": "ok", "timestamp": 1677875886486, "user_tz": 0, "elapsed": 14876, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="f286fd82-105e-4dd7-e702-edc6021efcab"
 # !find "$PWD/runs" -type d | tail -n 1 | xargs -0 -d '\n' wandb sync
 # !wandb sync --clean
 
