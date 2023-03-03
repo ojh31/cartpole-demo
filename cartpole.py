@@ -22,7 +22,7 @@ drive.mount('/content/drive')
 # !pip install jupytext
 # !pip install pygame
 
-# + colab={"base_uri": "https://localhost:8080/"} id="1g58HZUb8Ltl" executionInfo={"status": "ok", "timestamp": 1677876368685, "user_tz": 0, "elapsed": 2187, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="db7885b7-fa52-4cd2-d777-48c7102ee552"
+# + colab={"base_uri": "https://localhost:8080/"} id="1g58HZUb8Ltl" executionInfo={"status": "ok", "timestamp": 1677876431201, "user_tz": 0, "elapsed": 1762, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="557e84a7-1ad6-4a57-d452-6db5d2886a99"
 # !git config --global user.email "oskar.hollinsworth@gmail.com"
 # !git config --global user.name "ojh31"
 # !cat pat.txt | xargs git remote set-url origin
@@ -30,11 +30,9 @@ drive.mount('/content/drive')
 # !git fetch
 # !git status
 
-# + id="ilnXTPxCOZMz"
-git comm
-
-# + id="vEczQ48wC40O" executionInfo={"status": "ok", "timestamp": 1677872912093, "user_tz": 0, "elapsed": 2876, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="vEczQ48wC40O" executionInfo={"status": "ok", "timestamp": 1677877821468, "user_tz": 0, "elapsed": 3, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 import os
+import glob
 import sys
 import argparse
 import random
@@ -363,7 +361,11 @@ class PPOArgs:
     minibatch_size: int = 128
 
 
-# + id="FHmn5kSUGFFu" executionInfo={"status": "ok", "timestamp": 1677876142998, "user_tz": 0, "elapsed": 171, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + colab={"base_uri": "https://localhost:8080/", "height": 35} id="MaVk0z_-UlEm" executionInfo={"status": "ok", "timestamp": 1677877994917, "user_tz": 0, "elapsed": 201, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="94d0647a-6ac2-4b2f-fc14-c8094753591a"
+wandb.run.dir
+
+
+# + id="FHmn5kSUGFFu" executionInfo={"status": "ok", "timestamp": 1677878046940, "user_tz": 0, "elapsed": 201, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 def train_ppo(args: PPOArgs):
     run_name = f"{args.env_id}__{args.exp_name}__{args.seed}__{int(time.time())}"
@@ -376,8 +378,10 @@ def train_ppo(args: PPOArgs):
             name=run_name,
             monitor_gym=True,
             save_code=True,
+            settings=wandb.Settings(symlink=False)
         )
-    writer = SummaryWriter(f"runs/{run_name}")
+    log_dir = wandb.run.dir
+    writer = SummaryWriter(log_dir)
     writer.add_text(
         "hyperparameters",
         "|param|value|\n|-|-|\n%s" % "\n".join([f"|{key}|{value}|" 
@@ -507,21 +511,17 @@ def train_ppo(args: PPOArgs):
     envs.close()
     writer.close()
     if args.track:
+        model_path = f'{wandb.run.dir}/model_state_dict.pt'
+        print(f'Saving model to {model_path}')
+        t.save(agent.state_dict(), model_path)
         wandb.finish()
         print('...wandb finished.')
 
 
-# + colab={"base_uri": "https://localhost:8080/", "height": 35} id="sshNXF32Nxs4" executionInfo={"status": "ok", "timestamp": 1677876211186, "user_tz": 0, "elapsed": 265, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="c806c60e-07d2-4019-c3cb-3f4615d73187"
-gym.__version__
-
-# + id="-oZHTffJZP17" executionInfo={"status": "ok", "timestamp": 1677876300061, "user_tz": 0, "elapsed": 44216, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} colab={"base_uri": "https://localhost:8080/", "height": 1000, "referenced_widgets": ["7275d2d45e5d457d8ecaf9b73d6ca912", "2a48fe3321074c339752a5e9244e54b0", "a9bb2fb014cd46ff8fc7fb13574ad40e", "702d447d4cf24157ae276bbbce6b7615", "bc65a6cc48f7465698b875dbc940dcbf", "b5c89c824c18497db6114cd295c26c70", "86a8c0fa489a4e2cb62d0bdec15c44d4", "1b25e36733b640adb0905c85e161d147"]} outputId="74db3732-1b25-42db-b4f4-b567cb55b1f3"
+# + id="-oZHTffJZP17" executionInfo={"status": "ok", "timestamp": 1677878101017, "user_tz": 0, "elapsed": 44761, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} colab={"base_uri": "https://localhost:8080/", "height": 1000, "referenced_widgets": ["a94ab38fe4af4aedaf353ca5a07599bd", "a946757c11584848b9b4002160447928", "3446aa2b79044c25a8223a159b8caacb", "52b96e6391c341d682a7f60d4c9fbaaf", "d4496db3fa494601abdff16982b1079d", "d9c751a529fc44d8976dad94dd54ea90", "67e6237d7cea40e6b18cf992606bf7aa", "73bb763b32b04ec7887a58a0657236cc", "1f2d01ad57474d82890b3322777f2955", "1405a348959342b5ae6eabb344b65821", "42a77479a39b446798ed3c7af1ca4f48", "2fee7942e4d0492a9a62df996c98a1c4", "5febf9f04e8944128b59c373a9a098f8", "f757911bfe704fb191a24490699f5fc2", "af2a4864f5db4590a60c00cb25d4b1b9", "7d6ea96135914df3b730e0da9e32be1b"]} outputId="1cd04654-c22c-437a-a1d5-e47773a5b36a"
 # #%%wandb
 args = PPOArgs()
 train_ppo(args)
-
-# + colab={"base_uri": "https://localhost:8080/"} id="jp8WoksYIfwr" executionInfo={"status": "ok", "timestamp": 1677875886486, "user_tz": 0, "elapsed": 14876, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="f286fd82-105e-4dd7-e702-edc6021efcab"
-# !find "$PWD/runs" -type d | tail -n 1 | xargs -0 -d '\n' wandb sync
-# !wandb sync --clean
 
 # + id="cXbn7q4EMEQA" executionInfo={"status": "ok", "timestamp": 1677872953055, "user_tz": 0, "elapsed": 9, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 
