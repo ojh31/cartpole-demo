@@ -11,19 +11,23 @@
 #     name: python3
 # ---
 
-# + id="QAY_RQOLcRtA" executionInfo={"status": "ok", "timestamp": 1677939388566, "user_tz": 0, "elapsed": 2219, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} colab={"base_uri": "https://localhost:8080/"} outputId="32583e56-6426-47b4-f209-a5158c0f6d98"
-from google.colab import drive
-drive.mount('/content/drive')
+# + id="QAY_RQOLcRtA" executionInfo={"status": "ok", "timestamp": 1677942285188, "user_tz": 0, "elapsed": 1942, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} colab={"base_uri": "https://localhost:8080/"} outputId="ee4de327-947e-4f4e-9d34-514460da288a"
+MAIN = __name__ == "__main__"
+if MAIN:
+    print('Mounting drive...')
+    from google.colab import drive
+    drive.mount('/content/drive')
 # %cd /content/drive/MyDrive/Colab Notebooks/cartpole-demo
 
-# + colab={"base_uri": "https://localhost:8080/"} id="GgSNZRJh4EjV" executionInfo={"status": "ok", "timestamp": 1677939407911, "user_tz": 0, "elapsed": 19349, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="c10313c3-9f58-4994-cb69-39adaf604717"
+# + colab={"base_uri": "https://localhost:8080/"} id="GgSNZRJh4EjV" executionInfo={"status": "ok", "timestamp": 1677942324397, "user_tz": 0, "elapsed": 39212, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="8fd1eecc-12d1-4bae-cd15-dd541f1d84c7"
 # !pip install einops
 # !pip install wandb
 # !pip install jupytext
 # !pip install pygame
 # !pip install torchtyping
+# !pip install gradio
 
-# + colab={"base_uri": "https://localhost:8080/"} id="1g58HZUb8Ltl" executionInfo={"status": "ok", "timestamp": 1677941533644, "user_tz": 0, "elapsed": 1987, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="210ec44d-7c91-4f74-92b7-95932c4fa8d7"
+# + colab={"base_uri": "https://localhost:8080/"} id="1g58HZUb8Ltl" executionInfo={"status": "ok", "timestamp": 1677942492332, "user_tz": 0, "elapsed": 2440, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="d2f2ab57-c2c0-49aa-fdef-323556a2e4b6"
 # !git config --global user.email "oskar.hollinsworth@gmail.com"
 # !git config --global user.name "ojh31"
 # !cat pat.txt | xargs git remote set-url origin
@@ -31,10 +35,7 @@ drive.mount('/content/drive')
 # !git fetch
 # !git status
 
-# + id="tFd3AxCRG3R7"
-
-
-# + id="vEczQ48wC40O" executionInfo={"status": "ok", "timestamp": 1677939940602, "user_tz": 0, "elapsed": 1146, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="vEczQ48wC40O" executionInfo={"status": "ok", "timestamp": 1677942330521, "user_tz": 0, "elapsed": 4062, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 import os
 import glob
 import sys
@@ -61,12 +62,11 @@ import importlib
 import wandb
 from typeguard import typechecked
 
-# + id="K7T8bs1Y76ZK" executionInfo={"status": "ok", "timestamp": 1677939947575, "user_tz": 0, "elapsed": 334, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} colab={"base_uri": "https://localhost:8080/"} outputId="f4775e3d-0ed1-4c95-a303-f43cf421be9a"
+
+# + id="K7T8bs1Y76ZK" executionInfo={"status": "ok", "timestamp": 1677942330521, "user_tz": 0, "elapsed": 8, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} colab={"base_uri": "https://localhost:8080/"} outputId="f59ffef0-7156-4f27-d992-a392d59a1c73"
 # %env "WANDB_NOTEBOOK_NAME" "cartpole.py"
-MAIN = __name__ == "__main__"
 
-
-# + id="Q5E93-BGRjuy" executionInfo={"status": "ok", "timestamp": 1677939947575, "user_tz": 0, "elapsed": 2, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="Q5E93-BGRjuy" executionInfo={"status": "ok", "timestamp": 1677942330522, "user_tz": 0, "elapsed": 8, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 def make_env(
     env_id: str, seed: int, idx: int, capture_video: bool, run_name: str
 ):
@@ -93,7 +93,7 @@ def make_env(
     return thunk
 
 
-# + id="Kf152ROwHjM_" executionInfo={"status": "ok", "timestamp": 1677939948337, "user_tz": 0, "elapsed": 1, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="Kf152ROwHjM_" executionInfo={"status": "ok", "timestamp": 1677942330522, "user_tz": 0, "elapsed": 7, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 def test_minibatch_indexes(minibatch_indexes):
     for n in range(5):
         frac, minibatch_size = np.random.randint(1, 8, size=(2,))
@@ -105,7 +105,7 @@ def test_minibatch_indexes(minibatch_indexes):
         np.testing.assert_equal(np.sort(np.stack(indices).flatten()), np.arange(batch_size))
 
 
-# + id="mhvduVeOHkln" executionInfo={"status": "ok", "timestamp": 1677939948628, "user_tz": 0, "elapsed": 2, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="mhvduVeOHkln" executionInfo={"status": "ok", "timestamp": 1677942330522, "user_tz": 0, "elapsed": 7, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 def test_calc_entropy_bonus(calc_entropy_bonus):
     probs = Categorical(logits=t.randn((3, 4)))
     ent_coef = 0.5
@@ -114,7 +114,7 @@ def test_calc_entropy_bonus(calc_entropy_bonus):
     t.testing.assert_close(expected, actual)
 
 
-# + id="Aya60GeCGA5X" executionInfo={"status": "ok", "timestamp": 1677939948840, "user_tz": 0, "elapsed": 2, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="Aya60GeCGA5X" executionInfo={"status": "ok", "timestamp": 1677942330875, "user_tz": 0, "elapsed": 360, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 def layer_init(layer, std=np.sqrt(2), bias_const=0.0):
     t.nn.init.orthogonal_(layer.weight, std)
     t.nn.init.constant_(layer.bias, bias_const)
@@ -146,7 +146,7 @@ class Agent(nn.Module):
 
 
 
-# + id="6PwPZHlLGDYu" executionInfo={"status": "ok", "timestamp": 1677939949228, "user_tz": 0, "elapsed": 1, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="6PwPZHlLGDYu" executionInfo={"status": "ok", "timestamp": 1677942330875, "user_tz": 0, "elapsed": 4, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 @t.inference_mode()
 def compute_advantages(
@@ -190,7 +190,7 @@ def compute_advantages(
 
 
 
-# + id="uYSSMnF-GPvm" executionInfo={"status": "ok", "timestamp": 1677939950167, "user_tz": 0, "elapsed": 2, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="uYSSMnF-GPvm" executionInfo={"status": "ok", "timestamp": 1677942330875, "user_tz": 0, "elapsed": 3, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 @dataclass
 class Minibatch:
@@ -252,7 +252,7 @@ def make_minibatches(
 
 
 
-# + id="K7wXDJ9MGOWu" executionInfo={"status": "ok", "timestamp": 1677939950482, "user_tz": 0, "elapsed": 2, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="K7wXDJ9MGOWu" executionInfo={"status": "ok", "timestamp": 1677942330876, "user_tz": 0, "elapsed": 4, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 def calc_policy_loss(
     probs: Categorical, mb_action: t.Tensor, mb_advantages: t.Tensor, 
@@ -277,7 +277,7 @@ def calc_policy_loss(
 
 
 
-# + id="CmyxU6JWGMsG" executionInfo={"status": "ok", "timestamp": 1677939950786, "user_tz": 0, "elapsed": 3, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="CmyxU6JWGMsG" executionInfo={"status": "ok", "timestamp": 1677942330876, "user_tz": 0, "elapsed": 4, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 def calc_value_function_loss(
     critic: nn.Sequential, mb_obs: t.Tensor, mb_returns: t.Tensor, v_coef: float
@@ -294,7 +294,7 @@ def calc_value_function_loss(
 
 
 
-# + id="npyWs6xjGLkP" executionInfo={"status": "ok", "timestamp": 1677939951051, "user_tz": 0, "elapsed": 268, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="npyWs6xjGLkP" executionInfo={"status": "ok", "timestamp": 1677942331469, "user_tz": 0, "elapsed": 597, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 def calc_entropy_loss(probs: Categorical, ent_coef: float):
     '''Return the entropy loss term.
@@ -310,7 +310,7 @@ if MAIN:
     test_calc_entropy_bonus(calc_entropy_loss)
 
 
-# + id="nqJeg1kZGKSG" executionInfo={"status": "ok", "timestamp": 1677939951402, "user_tz": 0, "elapsed": 3, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="nqJeg1kZGKSG" executionInfo={"status": "ok", "timestamp": 1677942331470, "user_tz": 0, "elapsed": 5, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 class PPOScheduler:
     def __init__(self, optimizer: optim.Adam, initial_lr: float, end_lr: float, num_updates: int):
@@ -345,7 +345,7 @@ def make_optimizer(
 
 
 
-# + id="mgZ7-wsRCxJW" executionInfo={"status": "ok", "timestamp": 1677939952451, "user_tz": 0, "elapsed": 2, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="mgZ7-wsRCxJW" executionInfo={"status": "ok", "timestamp": 1677942331470, "user_tz": 0, "elapsed": 5, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 @dataclass
 class PPOArgs:
     exp_name: str = 'cartpole.py'    
@@ -373,28 +373,28 @@ class PPOArgs:
     minibatch_size: int = 128
 
 
-# + id="xeIu-J3ZwGyq" executionInfo={"status": "ok", "timestamp": 1677939954197, "user_tz": 0, "elapsed": 482, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="xeIu-J3ZwGyq" executionInfo={"status": "ok", "timestamp": 1677942356492, "user_tz": 0, "elapsed": 218, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 def wandb_init(name: str, args: PPOArgs):
     wandb.init(
         project=args.wandb_project_name,
         entity=args.wandb_entity,
         sync_tensorboard=True,
         config=vars(args),
-        name=run_name,
+        name=name,
         monitor_gym=True,
         save_code=True,
         settings=wandb.Settings(symlink=False)
     )
 
 
-# + id="gMYWqhsryYHy" executionInfo={"status": "ok", "timestamp": 1677939963728, "user_tz": 0, "elapsed": 263, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="gMYWqhsryYHy" executionInfo={"status": "ok", "timestamp": 1677942331470, "user_tz": 0, "elapsed": 4, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 def set_seed(seed: int):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
 
 
-# + id="T9j_L0Wpyrgz" executionInfo={"status": "ok", "timestamp": 1677941170184, "user_tz": 0, "elapsed": 221, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="T9j_L0Wpyrgz" executionInfo={"status": "ok", "timestamp": 1677942331471, "user_tz": 0, "elapsed": 5, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 @typechecked
 def rollout_phase(
     next_obs: t.Tensor, next_done: t.Tensor,
@@ -472,14 +472,14 @@ def rollout_phase(
     )
 
 
-# + id="xdDhABIk5jyb" executionInfo={"status": "ok", "timestamp": 1677940330733, "user_tz": 0, "elapsed": 301, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="xdDhABIk5jyb" executionInfo={"status": "ok", "timestamp": 1677942331471, "user_tz": 0, "elapsed": 5, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 def reset_env(envs, device):
     next_obs = torch.Tensor(envs.reset()).to(device)
     next_done = torch.zeros(envs.num_envs).to(device)
     return next_obs, next_done
 
 
-# + id="5CoMpUVU7rFT" executionInfo={"status": "ok", "timestamp": 1677939966568, "user_tz": 0, "elapsed": 3, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="5CoMpUVU7rFT" executionInfo={"status": "ok", "timestamp": 1677942331471, "user_tz": 0, "elapsed": 5, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 def get_action_shape(envs: gym.vector.SyncVectorEnv):
     action_shape = envs.single_action_space.shape
     assert action_shape is not None
@@ -489,7 +489,7 @@ def get_action_shape(envs: gym.vector.SyncVectorEnv):
     return action_shape
 
 
-# + id="FHmn5kSUGFFu" executionInfo={"status": "ok", "timestamp": 1677939967485, "user_tz": 0, "elapsed": 2, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
+# + id="FHmn5kSUGFFu" executionInfo={"status": "ok", "timestamp": 1677942366007, "user_tz": 0, "elapsed": 251, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 # %%
 def train_ppo(args: PPOArgs):
     t0 = int(time.time())
@@ -603,7 +603,7 @@ def train_ppo(args: PPOArgs):
             int(global_step / (time.time() - start_time)), 
             global_step
         )
-        if global_step % 100 == 0:
+        if global_step % 1000 == 0:
             print(
                 "steps per second (SPS):", 
                 int(global_step / (time.time() - start_time))
@@ -622,70 +622,14 @@ def train_ppo(args: PPOArgs):
         print('...wandb finished.')
 
 
-# + id="-oZHTffJZP17" executionInfo={"status": "ok", "timestamp": 1677878101017, "user_tz": 0, "elapsed": 44761, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} colab={"base_uri": "https://localhost:8080/", "height": 1000, "referenced_widgets": ["a94ab38fe4af4aedaf353ca5a07599bd", "a946757c11584848b9b4002160447928", "3446aa2b79044c25a8223a159b8caacb", "52b96e6391c341d682a7f60d4c9fbaaf", "d4496db3fa494601abdff16982b1079d", "d9c751a529fc44d8976dad94dd54ea90", "67e6237d7cea40e6b18cf992606bf7aa", "73bb763b32b04ec7887a58a0657236cc", "1f2d01ad57474d82890b3322777f2955", "1405a348959342b5ae6eabb344b65821", "42a77479a39b446798ed3c7af1ca4f48", "2fee7942e4d0492a9a62df996c98a1c4", "5febf9f04e8944128b59c373a9a098f8", "f757911bfe704fb191a24490699f5fc2", "af2a4864f5db4590a60c00cb25d4b1b9", "7d6ea96135914df3b730e0da9e32be1b"]} outputId="1cd04654-c22c-437a-a1d5-e47773a5b36a"
+# + id="-oZHTffJZP17" executionInfo={"status": "ok", "timestamp": 1677942433344, "user_tz": 0, "elapsed": 66678, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} colab={"base_uri": "https://localhost:8080/", "height": 1000, "referenced_widgets": ["c966d31ee30d43e0a8cc269a8a22b717", "294a378e56c44e4c9a3c58e8bf5b5f62", "473cc94ea22746f3a51e2186d973f741", "e3bb8c5a2c3841c2b33a7b8afb66a88f", "6133d8cbba964b7e8755e1c0691caf27", "1bf18f5fae9c4f58b2e360bc35251a94", "e820d38826494e248ca8974cccc1f338", "05eebe964b4b4c93b4aa0eac9ff865cb"]} outputId="0cfbb11c-831a-4622-8c01-afebae209d04"
 # #%%wandb
-args = PPOArgs()
-train_ppo(args)
+if MAIN:
+    args = PPOArgs()
+    train_ppo(args)
 
-# + id="cXbn7q4EMEQA" executionInfo={"status": "ok", "timestamp": 1677939451346, "user_tz": 0, "elapsed": 19660, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} colab={"base_uri": "https://localhost:8080/"} outputId="fef02712-e956-4637-c2f7-8906afb6bae2"
-# !pip install gradio
+# + colab={"base_uri": "https://localhost:8080/"} id="xJW6KL7QIj4s" outputId="7c529849-6d46-4a6a-def5-e1c0ef652c64"
+# !python demo.py
 
-# + id="RKBK54w1X0sB" executionInfo={"status": "ok", "timestamp": 1677940877500, "user_tz": 0, "elapsed": 3, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
-import gradio as gr
-import yaml
-
-
-# + id="GPg8ctdmY_Vk" executionInfo={"status": "ok", "timestamp": 1677941457475, "user_tz": 0, "elapsed": 198, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
-def generate_video(
-    string: str, wandb_path='wandb/run-20230303_211416-ox4d1p0u/files'
-):
-    with open(f'{wandb_path}/config.yaml') as f_cfg:
-        config = yaml.safe_load(f_cfg)
-    seed = hash(string)  % ((sys.maxsize + 1) * 2)
-    num_envs = config['num_envs']['value']
-    num_steps = config['num_steps']['value']
-    assert seed >= 0
-    assert isinstance(seed, int)
-    run_name = f'seed{seed}'
-    log_dir = f'generate/{run_name}'
-    writer = SummaryWriter(log_dir)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    envs = gym.vector.SyncVectorEnv([
-        make_env("CartPole-v1", seed, i, True, run_name) 
-        for i in range(num_envs)
-    ])
-    action_shape = get_action_shape(envs)
-    next_obs, next_done = reset_env(envs, device)
-    global_step = 0
-    agent = Agent(envs).to(device)
-    agent.load_state_dict(t.load(f'{wandb_path}/model_state_dict.pt'))
-    rollout_phase(
-        next_obs, next_done, agent, envs, writer, device, 
-        global_step, action_shape, num_envs, num_steps,
-    )
-    video_path = glob.glob(f'videos/{run_name}/*.mp4')[0]
-    return video_path
-
-
-# + id="41vr5CZgveRD" executionInfo={"status": "ok", "timestamp": 1677941457793, "user_tz": 0, "elapsed": 2, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
-examples = [0, 1, 31415, 'Hello, World!', 'This is a seed...']
-
-# + id="dXuOSmITWsa5" executionInfo={"status": "ok", "timestamp": 1677941458774, "user_tz": 0, "elapsed": 782, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
-demo = gr.Interface(
-    fn=generate_video,
-    inputs=[
-        gr.components.Textbox(lines=1, label="Seed"),
-    ],
-    outputs=gr.components.Video(label="Generated Video"),
-    examples=examples,
-)
-
-# + id="djXJ2wAq_uxz" executionInfo={"status": "ok", "timestamp": 1677941458775, "user_tz": 0, "elapsed": 3, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
-demo.close()
-
-# + id="babHPdKAXxCA" colab={"base_uri": "https://localhost:8080/", "height": 931} executionInfo={"status": "ok", "timestamp": 1677941531661, "user_tz": 0, "elapsed": 72575, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}} outputId="38788e05-136f-4458-9814-15481745295e"
-#%%
-demo.launch(debug=True)
-
-# + id="CFF8zxZoBGHr"
+# + id="P7ZfUlAqImIr" executionInfo={"status": "aborted", "timestamp": 1677942332655, "user_tz": 0, "elapsed": 4, "user": {"displayName": "Oskar Hollinsworth", "userId": "00307706571197304608"}}
 
